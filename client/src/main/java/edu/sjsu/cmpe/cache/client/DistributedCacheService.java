@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
- * Distributed cache service
+ * @author Amit Rakesh
  *
  */
 public class DistributedCacheService implements CacheServiceInterface {
@@ -36,12 +36,12 @@ public class DistributedCacheService implements CacheServiceInterface {
         this.cacheServerUrl = serverUrl;
     }
 
-    //Aniket Savanand
+    // Constructor
     public DistributedCacheService(String...serverUrls){
         this.serverUrls=serverUrls;
         this.numOfServer = serverUrls.length;
     }
-    /**Aniket Savanand
+    /**
      * @see edu.sjsu.cmpe.cache.client.CacheServiceInterface#get(long)
      */
 
@@ -63,7 +63,7 @@ public class DistributedCacheService implements CacheServiceInterface {
     }
 
 
-    //Async Read Aniket Savanand
+    //Asynchronous read
     @Override
     public String getAsynch(long key) {
 
@@ -83,7 +83,7 @@ public class DistributedCacheService implements CacheServiceInterface {
                             String currentUrl = currentServerURL;
 
                             public void failed(UnirestException e) {
-                                System.out.println("The request has failed");
+                                System.out.println("The request not completed");
                             }
 
                             public void completed(HttpResponse<JsonNode> response) {
@@ -135,7 +135,8 @@ System.out.println(response.getBody());
             }
 }
 
-       
+       // String value = response.getBody().getObject().getString("value");
+        //Sending correct values to other
 
         List<String> faultServers = new ArrayList<String>();
         for(String srvUrl:serverUrls){
@@ -149,11 +150,11 @@ System.out.println(response.getBody());
 
             }
         }
-System.out.println("Successfully received from servers......................");
+System.out.println("Successfully received from servers...");
         for (String srvr:sameValueServers){
             System.out.println(srvr);
         }
-        System.out.println("Values repaired on servers servers...................");
+        System.out.println("Values repaired on servers...");
         for (String srvr:faultServers){
             System.out.println(srvr);
             this.cacheServerUrl=srvr;
@@ -164,7 +165,8 @@ System.out.println("Successfully received from servers......................");
     }
 
     /**
-     * Aniket Savanand
+     * @see edu.sjsu.cmpe.cache.client.CacheServiceInterface#put(long,
+     *      java.lang.String)
      */
 
     // Synchronous write start
@@ -182,11 +184,12 @@ System.out.println("Successfully received from servers......................");
         }
 
         if (response.getCode() != 200) {
-            System.out.println("Failed to add to the cache.........");
+            System.out.println("Loading to caching failed.");
         }
     }
+// Synchronous write end
 
-	
+    // ASynchronous write start
     @Override
     public void putAsynch(long key, String value) {
 
@@ -203,7 +206,7 @@ System.out.println("Successfully received from servers......................");
                         .routeParam("value", value).asJsonAsync(new Callback<JsonNode>() {
                             String currentUrl = currentServerURL;
                             public void failed(UnirestException e) {
-                                System.out.println("The request has failed...");
+                                System.out.println("The request has failed");
                                 counter.countDown();
                             }
 
@@ -218,7 +221,7 @@ System.out.println("Successfully received from servers......................");
                             }
 
                             public void cancelled() {
-                                System.out.println("The request has been cancelled eventually....................");
+                                System.out.println("The request has been cancelled");
                             }
 
                         });
@@ -228,13 +231,13 @@ System.out.println("Successfully received from servers......................");
 
             if(numOfServer%2==0){
                 if(successWriteCount.intValue()>=(numOfServer/2)){
-                    System.out.println("Successful Put on our servers..............");
+                    System.out.println("Successful Put on servers...");
                     for(String successfulServer:successfulServers){
                         System.out.println(successfulServer);
                     }
                 }
                 else{
-                    System.out.println("Deleting values from our Server(s)...................");
+                    System.out.println("Deleting values from Server(s)...");
                     for (int i = 0; i < successfulServers.size(); i++) {
                         System.out.println(successfulServers.get(i));
                         HttpRequestWithBody response = Unirest.delete(successfulServers.get(i)+"/cache/{key}");
@@ -246,13 +249,13 @@ System.out.println("Successfully received from servers......................");
             }
             else{
                 if(successWriteCount.intValue()>=((numOfServer/2)+1)){
-                    System.out.println("Successful Put on servers..................");
+                    System.out.println("Successful Put on servers...");
                     for(String successfulServer:successfulServers){
                         System.out.println(successfulServer);
                     }
                 }
                 else{
-                    System.out.println("Deleting values from Server(s).....................");
+                    System.out.println("Deleting values from Server(s)...");
                     for (int i = 0; i < successfulServers.size(); i++) {
                         System.out.println(successfulServers.get(i));
                         HttpRequestWithBody response = Unirest.delete(successfulServers.get(i)+"/cache/{key}");
@@ -269,6 +272,6 @@ System.out.println("Successfully received from servers......................");
 
     }
 
-// Aniket Savanand Code
+
 
 }

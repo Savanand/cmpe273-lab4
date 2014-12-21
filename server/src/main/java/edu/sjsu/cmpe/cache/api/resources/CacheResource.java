@@ -54,7 +54,7 @@ public class CacheResource {
 
         return Response.status(200).build();
     }
-    //Aniket Savanand
+    // 
     @DELETE
     @Path("{key}")
     @Timed(name = "delete-entry")
@@ -64,6 +64,6 @@ public class CacheResource {
 
 
 
-//Aniket Savanand
+//
 
 }

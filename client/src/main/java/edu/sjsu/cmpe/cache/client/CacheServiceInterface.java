@@ -9,6 +9,4 @@ public interface CacheServiceInterface {
     public String getAsynch(long key);
     public void put(long key, String value);
     public void putAsynch(long key, String value);
-
-// Interface
 }

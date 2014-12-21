@@ -6,7 +6,7 @@
 	<groupId>edu.sjsu.cmpe</groupId>
 	<artifactId>client</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Consistent Hashed Client</name>
+	<name>CMPE273Lab6</name>
 
 	<repositories>
 		<repository>
@@ -105,8 +105,7 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<!-- You'll probably want to remove this for your project. I'm just using 
-					it here so that dropwizard-example doesn't get deployed as a library. -->
+				 
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.7</version>
