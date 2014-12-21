@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
- * @author Amit Rakesh
+ * @author Aniket Savanand
  *
  */
 public class DistributedCacheService implements CacheServiceInterface {
@@ -63,7 +63,7 @@ public class DistributedCacheService implements CacheServiceInterface {
     }
 
 
-    //Asynchronous read
+    //Asynchronous read Aniket Savanand
     @Override
     public String getAsynch(long key) {
 
@@ -169,7 +169,7 @@ System.out.println("Successfully received from servers...");
      *      java.lang.String)
      */
 
-    // Synchronous write start
+    // Synchronous write start Aniket Savanand
     @Override
     public void put(long key, String value) {
         HttpResponse<JsonNode> response = null;
@@ -187,9 +187,9 @@ System.out.println("Successfully received from servers...");
             System.out.println("Loading to caching failed.");
         }
     }
-// Synchronous write end
+// Synchronous write end Aniket Savanand
 
-    // ASynchronous write start
+    // ASynchronous write start Aniket Savanand
     @Override
     public void putAsynch(long key, String value) {
 
